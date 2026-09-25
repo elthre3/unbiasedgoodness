@@ -68,8 +68,9 @@ simulate_gof_instance <- function(m, b, n, p, s0,
   y <- as.numeric(x %*% beta + sigma * stats::rnorm(n))
 
   true_support <- seq_len(s0)
+  has_both <- s0 > 0 && s0 < p
   diagnostics <- data.frame(
-    max_corr = if (s0 > 0 && s0 < p) max(abs(stats::cor(x[, true_support], x[, -true_support]))) else NA,
+    max_corr = if (has_both) max(abs(stats::cor(x[, true_support], x[, -true_support]))) else NA,
     min_beta = if (s0 > 0) min(abs(beta[true_support])) else NA
   )
 
@@ -199,8 +200,8 @@ post_glmnet_cv <- function(fit_obj, x, y, beta, lambda = "lambda.1se") {
 
 default_x_par <- function(xtype) {
   switch(xtype,
-         "toeplitz" = 1/3,
-         "equi.corr" = 1/20,
+         "toeplitz" = 1 / 3,
+         "equi.corr" = 1 / 20,
          "exp.decay" = c(0.4, 5))
 }
 

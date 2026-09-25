@@ -2,3 +2,26 @@ url: http://joshualoftus.com/unbiasedgoodness/
 template:
   bootstrap: 5
 
+reference:
+- title: Goodness-of-fit tests
+  contents:
+  - gof_groupfs
+  - gof_RPtest
+- title: Simulation
+  contents:
+  - simulate_gof_instance
+  - simulate_hdr
+- title: Package
+  contents:
+  - unbiasedgoodness-package
+
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - unbiasedgoodness
+  - articles/selectiveInference
+  - articles/RPtests
+- title: Working notes
+  contents:
+  - articles/MLR

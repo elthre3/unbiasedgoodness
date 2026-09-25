@@ -1,0 +1,149 @@
+---
+title: "Selective goodness-of-fit after forward stepwise"
+bibliography: ../bibliography.bib
+link-citations: TRUE
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Philosophy based on conditional inference
+
+[**Does this specific selected model have a good fit, or does it fail to capture signal that an alternate model could detect?**]{.smallcaps}
+
+In contrast to the residual prediction approach (see the RP tests article), which asks whether a *method* typically produces models that fit, the selective inference approach [@fithian2014] asks about the *specific model* that was selected. A test of a hypothesis chosen by looking at the data is calibrated using the distribution of the test statistic conditional on the selection event, i.e. on having chosen that hypothesis.
+
+## Low vs high-dimensions
+
+The standard $F$-test for goodness-of-fit for an *a priori* fixed model compares its fit to that of a larger fixed model. The overall $F$-test reported at the end of a `summary(lm(y ~ x))` is the special case comparing an intercept-only model to the full model:
+
+```{r}
+set.seed(1)
+x <- runif(50)
+y <- x + rnorm(50)
+summary(lm(y ~ x))
+```
+
+To check the fit of a selected model $M$ we could test it against the model containing all $p$ predictors. When $p > n$ this is impossible, since the full model is saturated and the residual degrees of freedom $n - 1 - p$ are negative. Instead we test the selected model against a data-driven enlargement of it.
+
+## The procedure
+
+`gof_groupfs()` uses forward stepwise with groups [@loftus2015] as the model selection method.
+
+1. **Select.** Run forward stepwise. At each step add the group that minimizes the penalized criterion $n \log(\mathrm{RSS}/n) + k \cdot \mathrm{df}$ (or $\mathrm{RSS}/\sigma^2 + k \cdot \mathrm{df}$ if $\sigma$ is known). Stop when the criterion has increased `aicstop` times in a row. The first $s$ groups form the selected (null) model $M_0$.
+2. **Enlarge.** Continue forward stepwise to $M = \max(\lceil m s + b \rceil, s + \texttt{aicstop})$ groups, the alternative model $M_1 \supset M_0$. $M$ is capped so that $M_1$ is not saturated.
+3. **Test.** With $P_0$ and $P_1$ the projections onto the column spaces of $M_0$ and $M_1$ (after centering), use the usual statistic
+$$
+T_F = \frac{\|(P_1 - P_0) y\|^2 / \mathrm{df}_1}{\|(I - P_1) y\|^2 / \mathrm{df}_2},
+\qquad \mathrm{df}_1 = \mathrm{rank}(P_1) - \mathrm{rank}(P_0), \quad
+\mathrm{df}_2 = n - 1 - \mathrm{rank}(P_1),
+$$
+for $H_0: \mu \in \mathrm{span}(1, X_{M_0})$.
+
+### Conditioning
+
+Write $y = Z + R\,(g_1(T) V_\delta + g_2(T) V_2)$ where $Z = P_0 y$, $R = \|y - Z\|$, $V_\delta$ and $V_2$ are the unit vectors in the directions of $(P_1 - P_0) y$ and $(I - P_1) y$, and $g_1(t) = \sqrt{Ct/(1 + Ct)}$, $g_2(t) = 1/\sqrt{1 + Ct}$ with $C = \mathrm{df}_1/\mathrm{df}_2$. Under $H_0$ with Gaussian errors, $T_F$ is independent of $(Z, R, V_\delta, V_2)$ and has an $F_{\mathrm{df}_1, \mathrm{df}_2}$ distribution.
+
+Holding $(Z, R, V_\delta, V_2)$ fixed, each comparison made by forward stepwise (every candidate group at every step up to $M$) and the sign of each change in the penalized criterion (up to step $s + \texttt{aicstop}$) is a constraint on $t$, the value of $T_F$. The set of $t$ satisfying all of them is a union of intervals $E$, and the selective p-value is
+$$
+P(F_{\mathrm{df}_1, \mathrm{df}_2} \geq T_F \mid F_{\mathrm{df}_1, \mathrm{df}_2} \in E).
+$$
+Because conditioning on the whole forward stepwise path and the signs of all the criterion differences is finer than conditioning on the selected pair $(M_0, M_1)$, the resulting test controls the type 1 error conditional on $(M_0, M_1)$, at some cost in power. When $\sigma$ is known the same construction is used with a truncated $\chi$ statistic.
+
+## Example
+
+```{r setup, message=FALSE}
+library(unbiasedgoodness)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+```{r}
+set.seed(1)
+n <- 100
+p <- 200
+s0 <- 5
+sim_data <- hdi::rXb(n, p, s0, xtype = "equi.corr", x.par = 1 / 20, verbose = FALSE)
+x <- sim_data$x
+beta <- sim_data$beta
+y <- as.numeric(x %*% beta + rnorm(n))
+# True support
+which(beta != 0)
+```
+
+```{r}
+fit <- gof_groupfs(x, y, m = 1.2, b = 10)
+fit
+```
+
+`p_naive` is the p-value of the same $F$ statistic ignoring selection. The truncation region printed as `trunc_min` and `trunc_max` is typically short, which is why the selective test can have low power.
+
+## Simulations
+
+The results below were computed by `data-raw/sim_groupfs.R` and are loaded from the installed package.
+
+```{r}
+output <- read.csv(system.file("extdata", "sim_groupfs.csv",
+                               package = "unbiasedgoodness"))
+nrow(output)
+```
+
+The settings are $n = 100$, $p = 200$, $s_0 = 5$, a Toeplitz design with correlation $(1/3)^{|i-j|}$, nonzero coefficients drawn from $U[-2, 2]$, unit noise variance, $k = \log p$, $m = 1.2$ and $b = 10$.
+
+### Distributions of $p$-values
+
+```{r groupfs-pval-plots, fig.width = 8, fig.height = 4}
+pvals <- output |>
+  pivot_longer(starts_with("pval"), names_to = "type", values_to = "pvalue") |>
+  mutate(null = if_else(null, "selected model correct", "selected model misses signal"))
+
+ggplot(pvals, aes(pvalue, colour = type)) +
+  stat_ecdf() +
+  geom_abline(slope = 1, linetype = "dashed") +
+  facet_wrap(~ null) +
+  coord_equal() +
+  labs(x = "p-value", y = "empirical cdf", colour = NULL)
+```
+
+### Selective error control
+
+Rejection rates at level 0.05, with Monte Carlo standard errors:
+
+```{r}
+pvals |>
+  group_by(null, type) |>
+  summarize(instances = n(),
+            rejection_rate = mean(pvalue < 0.05),
+            mc_se = sqrt(rejection_rate * (1 - rejection_rate) / instances),
+            .groups = "drop") |>
+  knitr::kable(digits = 3)
+```
+
+Within `selected model correct` the rejection rate estimates $P(\text{reject} \mid \text{selected model contains the true support})$. The theory above gives the stronger guarantee of error control conditional on each selected pair $(M_0, M_1)$. Within `selected model misses signal` the rejection rate estimates power. Coefficients drawn from $U[-2, 2]$ are often very small, so many of these instances are close to the null.
+
+## Model selection success rates
+
+```{r}
+output |>
+  summarize(null = mean(null),
+            alt = mean(alt),
+            s_null = mean(s_null),
+            s_alt = mean(s_alt))
+```
+
+```{r, fig.width = 8, fig.height = 3}
+output |>
+  select(null_intersection, alt_intersection) |>
+  pivot_longer(everything()) |>
+  ggplot(aes(value)) +
+  geom_bar() +
+  facet_wrap(~ name) +
+  labs(x = "number of true variables included")
+```
+
+## References

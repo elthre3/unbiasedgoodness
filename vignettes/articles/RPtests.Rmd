@@ -1,18 +1,7 @@
 ---
 title: "RP tests"
-output: rmarkdown::html_vignette
-bibliography: bibliography.bib
+bibliography: ../bibliography.bib
 link-citations: TRUE
-vignette: >
-  %\VignetteIndexEntry{RP tests}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
-  %\VignetteDepends{RPtests}
-  %\VignetteDepends{glmnet}
-  %\VignetteDepends{tidyverse}
-  %\VignetteDepends{purrr}
-  %\VignetteDepends{hdi}
-  %\VignetteDepends{unbiasedgoodness}
 ---
 
 ```{r, include = FALSE}
@@ -91,7 +80,7 @@ Below we do not consider special cases, for example when a user-specified `noise
 
 When `resid_type = "Lasso"` (the default unless otherwise specified) the following functions will be called.
 
-First, `cv.glmnet` is run several times (in parallel) to get an estimate `beta_est`. The estimated signal is `sig_est <- x %*% beta_est`. 
+First, `cv.glmnet` is run several times (in parallel) to get an estimate `beta_est`, unless one is supplied. (A supplied `beta_est` is ignored when `resid_type = "OLS"`.) The estimated signal is `sig_est <- x %*% beta_est`. 
 
 Next, `comp_sigma_est` is called with this `beta_est` to compute `sqrt(MSE)`. This is the noise level used by `rnorm`, the default `rand_gen`, to generate noise terms for simulating residuals.
 
@@ -124,15 +113,13 @@ The original model selection algorithm chooses some number of variables, let's c
 ## Simulations and examples
 
 ```{r setup, message=FALSE}
-library(RPtests)
-library(hdi) # riboflavin dataset?
-library(purrr)
-library(tidyverse)
-devtools::load_all() # this shouldn't be necessary?
 library(unbiasedgoodness)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 ```
 
-We continue focusing on the high-dimensional linear model and as an alternative to a selected model we consider whether more variables should be included. Since [-@shah2018] are not trying to do selective inference it seems there is no model selection involved in choosing the hypotheses in their simulations. Type 1 error control is shown in simulations set up for the null to be true in all instances, rather than doing model selection and subsetting to instances where the null holds (as in selective inference). In contrast to their simulations, we are interested in the selective (conditional) error control rates, as we explore in the simulations below.
+We continue focusing on the high-dimensional linear model and as an alternative to a selected model we consider whether more variables should be included. Since @shah2018 are not trying to do selective inference there is no model selection involved in choosing the hypotheses in their simulations. Type 1 error control is shown in simulations set up for the null to be true in all instances, rather than doing model selection and subsetting to instances where the null holds (as in selective inference). In contrast to their simulations, we are interested in the selective (conditional) error control rates, as we explore in the simulations below.
 
 ### One data generation example
 
@@ -141,137 +128,112 @@ set.seed(1)
 n <- 100
 p <- 200
 s0 <- 5
-sim_data <- rXb(n, p, s0, xtype = "equi.corr")
+sim_data <- hdi::rXb(n, p, s0, xtype = "equi.corr", x.par = 1 / 20, verbose = FALSE)
 x <- sim_data$x
 beta <- sim_data$beta
-y <- x %*% beta + rnorm(n)
+y <- as.numeric(x %*% beta + rnorm(n))
 # True support
 which(beta != 0)
 ```
-
 
 ```{r}
 gof_RPtest(x, y)
 ```
 
-### Iterate many times
+The p-values are
+
+- `pval_OLS`, `pval_lasso`: the added variables (`alt_support`) as `x_alt`, with OLS or square-root lasso residuals of the selected model;
+- `pval_lasso_beta`: as `pval_lasso`, but the residual bootstrap uses the lasso coefficients of the selected model as `beta_est` instead of re-running `cv.glmnet` on the selected variables;
+- `pval_full`, `pval_full_lasso`: all unselected variables as `x_alt`, i.e. the original goodness-of-fit test of @shah2018 applied to the selected model.
+
+### One simulation iteration
 
 ```{r}
-#devtools::load_all() 
-#library(unbiasedgoodness)
 set.seed(1)
-n <- 100
-p <- 200
-s0 <- 5
 m <- 1.2
 b <- 10
-
 simulate_gof_instance(m, b, n, p, s0)
 ```
 
-```{r glmnet-RPtest-simulation}
-#devtools::load_all() 
-#library(unbiasedgoodness)
-set.seed(1)
-niters <- 1000
-sim_results_file <- "./data/glmnet_RPtest.csv"
+The column `null` is `TRUE` when the selected model contains all `s0` true variables, so that the goodness-of-fit null hypothesis holds for the selected model.
 
-if (file.exists(sim_results_file)) {
-  output <- read.csv(sim_results_file)
-  print(paste0(
-    "Loading saved simulation results with ",
-    nrow(output), " iterates"))
-} else {
-  # run simulation
-  output <- simulate_gof(niters, m, b, n, p, s0)
-  write.csv(output, sim_results_file)
-}
+### Iterate many times
+
+The results below were computed by `data-raw/sim_rptest.R` and are loaded from the installed package, since the simulation takes a while.
+
+```{r}
+output <- read.csv(system.file("extdata", "sim_rptest.csv",
+                               package = "unbiasedgoodness"))
+nrow(output)
 ```
+
+The settings are $n = 100$, $p = 200$, $s_0 = 5$, a Toeplitz design with correlation $(1/3)^{|i-j|}$, nonzero coefficients drawn from $U[-2, 2]$, unit noise variance, $m = 1.2$, $b = 10$ and $B = 49$ bootstrap samples per test.
 
 ### Distributions of $p$-values
 
-```{r glmnet-RPtest-pval-plots, echo=FALSE, message=FALSE, results='hide'}
-output |>
-  pivot_longer(
-    starts_with("pval"),
-    names_to = "type") |>
-  group_by(type) |>
-  group_map(~ ggplot(.) + aes(value) + 
-    xlab("p-value") + 
-    ylab("ecdf") +
-    ggtitle(.y[[1]]) +
-    stat_ecdf() + xlim(0, 1) + ylim(0,1) +
-    geom_abline(slope = 1, linetype = "dashed") +
-    facet_grid(~ null)
-  ) |>
-  print()
+```{r glmnet-RPtest-pval-plots, fig.width = 8, fig.height = 4}
+pvals <- output |>
+  pivot_longer(starts_with("pval"), names_to = "type", values_to = "pvalue") |>
+  mutate(null = if_else(null, "selected model correct", "selected model misses signal"))
+
+ggplot(pvals, aes(pvalue, colour = type)) +
+  stat_ecdf() +
+  geom_abline(slope = 1, linetype = "dashed") +
+  facet_wrap(~ null) +
+  coord_equal() +
+  labs(x = "p-value", y = "empirical cdf", colour = NULL)
 ```
 
 ### Selective error control
 
-```{r}
-rejection_rates <- output |>
-  pivot_longer(
-    starts_with("pval"),
-    names_to = "type") |>
-  group_by(type, null) |>
-  summarize(error_rate = mean(value < 0.05), .groups = "keep")
-```
-
-#### Selective type 1 error
+Rejection rates at level 0.05, with Monte Carlo standard errors:
 
 ```{r}
-rejection_rates |>
-  dplyr::filter(null == TRUE)
+rejection_rates <- pvals |>
+  group_by(null, type) |>
+  summarize(instances = n(),
+            rejection_rate = mean(pvalue < 0.05),
+            mc_se = sqrt(rejection_rate * (1 - rejection_rate) / instances),
+            .groups = "drop")
+knitr::kable(rejection_rates, digits = 3)
 ```
 
-
-### Selective power
-
-```{r}
-rejection_rates |>
-  dplyr::filter(null == FALSE) 
-```
+Within `selected model correct` the rejection rate estimates the selective type 1 error $P(\text{reject} \mid \text{selected model contains the true support})$. This averages over the models selected in that event; it does not show error control conditional on each particular selected model. Within `selected model misses signal` it estimates power, but note that coefficients drawn from $U[-2, 2]$ are often very small, so many of these instances are close to the null.
 
 ## Model selection success rates
 
-These diagnostics are computed to give some indication of the difficulty level of lasso model selection for the chosen data generation process.
+These diagnostics give some indication of the difficulty of lasso model selection for this data generating process.
 
 ```{r}
-output |> 
+output |>
   summarize(null = mean(null),
             alt = mean(alt),
             s_null = mean(s_null),
             s_alt = mean(s_alt))
 ```
 
-```{r}
-output %>% pull(null_intersection) %>% qplot()
-output %>% pull(alt_intersection) %>% qplot()
+```{r, fig.width = 8, fig.height = 3}
+output |>
+  select(null_intersection, alt_intersection) |>
+  pivot_longer(everything()) |>
+  ggplot(aes(value)) +
+  geom_bar() +
+  facet_wrap(~ name) +
+  labs(x = "number of true variables included")
 ```
 
-```{r}
-output |> pull(s_alt) |> qplot()
+```{r, fig.width = 8, fig.height = 3, message = FALSE}
+output |>
+  select(null_intersection, max_corr, min_beta) |>
+  pivot_longer(c(max_corr, min_beta)) |>
+  ggplot(aes(value, null_intersection)) +
+  geom_jitter(height = 0.1, alpha = 0.3) +
+  geom_smooth(method = "lm") +
+  facet_wrap(~ name, scales = "free_x")
 ```
-
-```{r}
-output |> ggplot(aes(max_corr, null_intersection)) + 
-  geom_point() + geom_smooth(method = "lm")
-```
-
-```{r}
-output |> ggplot(aes(min_beta, null_intersection)) + 
-  geom_point() + geom_smooth(method = "lm")
-```
-
-```{r}
-output %>% pull(null_intersection) |> qplot()
-```
-
 
 ### Does RPtests control selective error?
 
-To the best of my knowledge it is not known whether **RPtests** is valid for **selective inference** since it was not designed or proven to do so. This empirical demonstration may be a novel result showing that, at least in the conditions simulated here, the method does control selective errors.
-
+**RPtests** was not designed or proven to control selective errors. In the setting simulated here, the estimated selective type 1 error rates in the table above can be compared with the nominal 0.05 using the reported Monte Carlo standard errors. This is evidence about one data generating process and one tuning of the procedure, not a general result.
 
 ## References

@@ -64,9 +64,9 @@
 #' @examples
 #' set.seed(1)
 #' n <- 100
-#' p <- 200
-#' s0 <- 5
-#' sim_data <- hdi::rXb(n, p, s0, xtype = "equi.corr", x.par = 1/20)
+#' p <- 60
+#' s0 <- 3
+#' sim_data <- hdi::rXb(n, p, s0, xtype = "toeplitz", x.par = 1 / 3)
 #' x <- sim_data$x
 #' y <- as.numeric(x %*% sim_data$beta + rnorm(n))
 #' gof_groupfs(x, y, m = 1.2, b = 5)
@@ -130,7 +130,6 @@ gof_groupfs_core <- function(obj, null_groups, alt_groups, aic_steps,
   x <- obj$x
   y <- obj$y
   index <- obj$index
-  k <- attr(obj, "k")
   sigma <- obj$sigma
 
   if (length(intersect(null_groups, alt_groups)) > 0) {

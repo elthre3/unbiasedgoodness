@@ -3,7 +3,7 @@ test_that("gof_RPtest returns p-values for a disjoint larger model", {
   set.seed(1)
   n <- 80
   p <- 100
-  sim <- hdi::rXb(n, p, 3, xtype = "equi.corr", x.par = 1/20, verbose = FALSE)
+  sim <- hdi::rXb(n, p, 3, xtype = "equi.corr", x.par = 1 / 20, verbose = FALSE)
   y <- as.numeric(sim$x %*% sim$beta + rnorm(n))
   out <- suppressWarnings(gof_RPtest(sim$x, y, m = 1.2, b = 4, B = 9L))
   pvals <- out[startsWith(names(out), "pval")]

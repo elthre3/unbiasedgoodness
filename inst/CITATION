@@ -1,13 +1,9 @@
-citHeader("To cite unbiasedgoodness in publications use:")
-
-citEntry(
-  entry    = "Article",
-  title    = "unbiasedgoodness: Goodness-of-Fit Tests After Model Selection",
-  author   = "Joshua Loftus",
-  journal  = "none",
-  year     = 2022,
-  url      = "https://github.com/joftius/unbiasedgoodness/",
-  textVersion = paste(
-    "Joshua Loftus. unbiasedgoodness: Goodness-of-Fit Tests After Model Selection."
-  )
+bibentry(
+  bibtype = "Manual",
+  title = "unbiasedgoodness: Goodness-of-Fit Tests After Model Selection",
+  author = person("Joshua", "Loftus"),
+  year = 2022,
+  note = "R package version 0.0.0.9001",
+  url = "https://github.com/joftius/unbiasedgoodness",
+  header = "To cite unbiasedgoodness in publications use:"
 )

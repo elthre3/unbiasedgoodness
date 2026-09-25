@@ -1,22 +1,8 @@
 ---
-title: "MLR"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{MLR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+title: "Notes: monotone likelihood ratio and selective unbiasedness"
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r setup}
-library(unbiasedgoodness)
-```
+*Working notes, not a finished article.*
 
 Experiments that were not performed are irrelevant
 Models that were not selected?

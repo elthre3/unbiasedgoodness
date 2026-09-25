@@ -97,9 +97,9 @@ alternative is a data-driven enlargement of the selected model.
 \examples{
 set.seed(1)
 n <- 100
-p <- 200
-s0 <- 5
-sim_data <- hdi::rXb(n, p, s0, xtype = "equi.corr", x.par = 1/20)
+p <- 60
+s0 <- 3
+sim_data <- hdi::rXb(n, p, s0, xtype = "toeplitz", x.par = 1 / 3)
 x <- sim_data$x
 y <- as.numeric(x \%*\% sim_data$beta + rnorm(n))
 gof_groupfs(x, y, m = 1.2, b = 5)

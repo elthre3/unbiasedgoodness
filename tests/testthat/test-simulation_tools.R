@@ -19,8 +19,10 @@ test_that("simulate_gof_instance reports the true support correctly", {
 })
 
 test_that("simulate_gof is reproducible with a seed", {
-  run <- function() simulate_gof(3, m = 1, b = 2, n = 60, p = 20, s0 = 2,
-                                 method = "groupfs", k = 2 * log(20), seed = 5)
+  run <- function() {
+    simulate_gof(3, m = 1, b = 2, n = 60, p = 20, s0 = 2,
+                 method = "groupfs", k = 2 * log(20), seed = 5)
+  }
   a <- run()
   b <- run()
   expect_equal(nrow(a), 3)

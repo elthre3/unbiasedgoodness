@@ -70,7 +70,7 @@ set.seed(1)
 n <- 100
 p <- 200
 s0 <- 5
-sim_data <- hdi::rXb(n, p, s0, xtype = "equi.corr", x.par = 1/20)
+sim_data <- hdi::rXb(n, p, s0, xtype = "equi.corr", x.par = 1 / 20)
 x <- sim_data$x
 y <- as.numeric(x \%*\% sim_data$beta + rnorm(n))
 gof_RPtest(x, y, B = 19L)

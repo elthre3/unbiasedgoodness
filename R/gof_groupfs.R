@@ -105,6 +105,10 @@ gof_groupfs <- function(x, y, index = seq_len(ncol(x)), m = 1.2, b = 5,
                      intercept = intercept, center = center,
                      normalize = normalize, aicstop = 0)
   path_len <- length(fit_sel$action)
+  if (length(fit_alt$action) < path_len) {
+    stop("Could not continue forward stepwise past the selected model ",
+         "without saturating it.")
+  }
   if (!identical(fit_alt$action[seq_len(path_len)], fit_sel$action)) {
     stop("Forward stepwise paths disagree; this should not happen.")
   }

@@ -44,7 +44,11 @@
 #' @param aicstop Number of consecutive increases of the criterion before
 #'   forward stepwise stops.
 #' @param maxsteps Maximum number of forward stepwise steps when selecting the
-#'   null model. Defaults to the largest non-saturating number of steps.
+#'   null model. Defaults to `min(G, n - intercept - 2)` for `G` groups, the
+#'   largest number of single-column steps that leaves at least one residual
+#'   degree of freedom. With `sigma = NULL` and \eqn{p > n} the criterion can
+#'   keep decreasing until then, in which case there is no model left to test
+#'   against and an error is returned.
 #' @param intercept Include an (unpenalized) intercept?
 #' @param center,normalize Center and scale the columns of `x`, by group?
 #' @return An object of class `"gof_groupfs"`, a list with components
@@ -80,7 +84,7 @@ gof_groupfs <- function(x, y, index = seq_len(ncol(x)), m = 1.2, b = 5,
   G <- length(unique(index))
   if (m < 1 || b <= 0) stop("Need m >= 1 and b > 0 so the alternative is larger")
   if (aicstop < 1) stop("aicstop must be at least 1")
-  if (missing(maxsteps)) maxsteps <- min(n - 1, G)
+  if (missing(maxsteps)) maxsteps <- min(G, n - intercept - 2)
 
   fit_sel <- groupfs(x, y, index = index, maxsteps = maxsteps, sigma = sigma,
                      k = k, intercept = intercept, center = center,

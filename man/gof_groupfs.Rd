@@ -42,7 +42,11 @@ truncated \eqn{F} test is used, otherwise a truncated \eqn{\chi} test.}
 forward stepwise stops.}
 
 \item{maxsteps}{Maximum number of forward stepwise steps when selecting the
-null model. Defaults to the largest non-saturating number of steps.}
+null model. Defaults to \code{min(G, n - intercept - 2)} for \code{G} groups, the
+largest number of single-column steps that leaves at least one residual
+degree of freedom. With \code{sigma = NULL} and \eqn{p > n} the criterion can
+keep decreasing until then, in which case there is no model left to test
+against and an error is returned.}
 
 \item{intercept}{Include an (unpenalized) intercept?}
 

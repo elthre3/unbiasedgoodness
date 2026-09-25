@@ -236,7 +236,8 @@ output |>
 
 ```{r, include = FALSE}
 rate <- function(col) {
-  subset(rejection_rates, null == "selected model correct" & type == col)$rejection_rate
+  keep <- rejection_rates$null == "selected model correct" & rejection_rates$type == col
+  rejection_rates$rejection_rate[keep]
 }
 ```
 

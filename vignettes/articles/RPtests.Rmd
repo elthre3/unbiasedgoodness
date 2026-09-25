@@ -234,6 +234,16 @@ output |>
 
 ### Does RPtests control selective error?
 
-**RPtests** was not designed or proven to control selective errors. In the setting simulated here, the estimated selective type 1 error rates in the table above can be compared with the nominal 0.05 using the reported Monte Carlo standard errors. This is evidence about one data generating process and one tuning of the procedure, not a general result.
+```{r, include = FALSE}
+rate <- function(col) {
+  subset(rejection_rates, null == "selected model correct" & type == col)$rejection_rate
+}
+```
+
+**RPtests** was not designed to control selective errors, and in this simulation it does not when the alternative is chosen by the lasso. Among the `r sum(output$null)` iterations in which the selected model contains the true support, the tests of the added variables reject at level 0.05 with frequency `r round(rate("pval_OLS"), 2)` (`pval_OLS`) and `r round(rate("pval_lasso"), 2)` (`pval_lasso`). When the selected model is correct the added variables are pure noise, but they are the noise variables most correlated with the residuals of the selected model, since that is how the lasso chose them. A test of whether they predict those residuals that ignores this choice is anti-conservative. (An earlier version of this article suggested the opposite conclusion. Its simulation had silently used `b = 5` instead of `b = 10`, but rerunning the original 2022 code with either value, on 120 iterations each, also rejected in well over half of the iterations in which the selected model was correct.)
+
+The tests that use *all* unselected variables as the alternative (`pval_full`, `pval_full_lasso`) do not involve a data-driven alternative, and their rejection rates here are at or below the nominal level, at the cost of having essentially no power against the alternatives in this simulation.
+
+These results concern one data generating process and one tuning of the procedure.
 
 ## References

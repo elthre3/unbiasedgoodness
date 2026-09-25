@@ -1,27 +1,36 @@
 Package: unbiasedgoodness
 Title: Goodness-of-Fit Tests After Model Selection
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
-    person("Joshua", "Loftus", "R", "joftius@gmail.com", role = c("aut", "cre"),
+    person("Joshua", "Loftus", , "joftius@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2905-1632"))
-Description: Provides post-selection inference methods for goodness-of-fit tests. Typical model diagnostics are biased when computed on the same data used to select the model, but the methods in this package are adjusted to be unbiased.
+Description: Provides goodness-of-fit tests for linear models chosen by
+    data-driven model selection. Typical model diagnostics are biased when
+    computed on the same data used to select the model. The package tests a
+    selected model against a data-driven enlargement of it, either with
+    selective (truncated) F and chi tests after forward stepwise selection,
+    or with residual prediction tests after lasso selection, and includes
+    tools for simulating the selective error rates of these tests.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
-Suggests: 
-    knitr,
-    rmarkdown,
-    hdi,
-    tidyverse,
-    testthat (>= 3.0.0)
-VignetteBuilder: knitr
 Imports: 
     glmnet,
+    hdi,
+    intervals,
+    parallel,
     RPtests,
-    doParallel,
-    selectiveInference
+    stats
+Suggests: 
+    dplyr,
+    ggplot2,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    tidyr
+VignetteBuilder: knitr
 URL: https://github.com/joftius/unbiasedgoodness,
     http://joshualoftus.com/unbiasedgoodness/
 BugReports: https://github.com/joftius/unbiasedgoodness/issues
 Config/testthat/edition: 3
+RoxygenNote: 7.3.1

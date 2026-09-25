@@ -2,38 +2,77 @@
 % Please edit documentation in R/gof_RPtest.R
 \name{gof_RPtest}
 \alias{gof_RPtest}
-\title{Goodness-of-fit test using RPtest package.}
+\title{Goodness-of-fit tests after lasso selection using residual prediction}
 \usage{
-gof_RPtest(x, y, m = 2, b = 1)
+gof_RPtest(
+  x,
+  y,
+  m = 1.2,
+  b = 5,
+  lambda = c("lambda.1se", "lambda.min"),
+  B = 49L,
+  ...
+)
 }
 \arguments{
-\item{x}{A matrix of predictors.}
+\item{x}{A matrix of predictors (n by p).}
 
-\item{y}{A vector of outcomes.}
+\item{y}{A numeric vector of outcomes.}
 
-\item{m}{Multiplier of null model sparsity.}
+\item{m}{Multiplier of the selected model size.}
 
-\item{b}{Additive increase to alternative sparsity.}
+\item{b}{Additive increase in the size of the alternative model.}
+
+\item{lambda}{Which \code{cv.glmnet} choice of \code{lambda} defines the selected
+model.}
+
+\item{B}{Number of bootstrap samples used by each \code{RPtest} call.}
+
+\item{...}{Further arguments passed to \code{\link[RPtests:RPtest]{RPtests::RPtest()}}.}
 }
 \value{
-A p-value computed using \code{RPtest}.
+A list with components
+\describe{
+\item{selected_support}{Columns of \code{x} in the selected model.}
+\item{alt_support}{Columns added in the alternative model.}
+\item{pval_OLS, pval_lasso}{Tests of the added columns using OLS or
+square-root lasso residuals of the selected model.}
+\item{pval_lasso_beta}{As \code{pval_lasso}, but the residual bootstrap is
+generated from the lasso coefficients of the selected model instead
+of refitting \code{cv.glmnet} inside \code{RPtest}.}
+\item{pval_full, pval_full_lasso}{Tests using all unselected columns
+as the alternative, with OLS or square-root lasso residuals.}
+}
 }
 \description{
-\code{gof_RPtest} uses the \code{RPtest} package to compute a goodness-of-fit test.
+\code{gof_RPtest()} selects a model with the cross-validated lasso, enlarges it
+by moving further along the lasso path, and uses \code{\link[RPtests:RPtest]{RPtests::RPtest()}} to
+test whether the variables in the larger model can predict the residuals
+of the selected model.
 }
 \details{
-First uses \code{cv.glmnet} to select a model with \code{lambda.1se}, then
-tests the selected model against one with a value of \code{lambda}
-chosen to increase the model sparsity.
+The selected (null) model is the lasso support at \code{cv_fit[[lambda]]}, of
+size \code{s}. The alternative adds the variables that enter the lasso path by
+the first \code{lambda} at which the support has at least \code{ceiling(m * s + b)}
+variables, or at the end of the path if that size is never reached.
+
+\code{RPtest} with \code{resid_type = "Lasso"} fits a lasso to the null variables, so
+the null model needs at least two variables. If fewer are selected, the
+null model is taken from the first \code{lambda} on the path with at least two.
+
+The p-values are not adjusted for selection. Whether they control error
+rates conditional on the selected model is the question studied in the
+package articles.
 }
 \examples{
+\donttest{
+set.seed(1)
 n <- 100
 p <- 200
 s0 <- 5
-sim_data <- rXb(n, p, s0)
+sim_data <- hdi::rXb(n, p, s0, xtype = "equi.corr", x.par = 1/20)
 x <- sim_data$x
-beta <- sim_data$beta
-y <- x \%*\% beta + rnorm(n)
-gof_RPtest(x, y)
-
+y <- as.numeric(x \%*\% sim_data$beta + rnorm(n))
+gof_RPtest(x, y, B = 19L)
+}
 }

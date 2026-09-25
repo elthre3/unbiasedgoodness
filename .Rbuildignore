@@ -7,3 +7,8 @@
 ^pkgdown$
 ^doc$
 ^Meta$
+^backup$
+^data-raw$
+^vignettes/articles$
+^\.lintr$
+^.*\.Rcheck$

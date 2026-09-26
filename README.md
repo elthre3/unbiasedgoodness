@@ -38,7 +38,7 @@ library(unbiasedgoodness)
 set.seed(1)
 n <- 100
 p <- 60
-sim_data <- hdi::rXb(n, p, s0 = 3, xtype = "toeplitz", x.par = 1 / 3)
+sim_data <- rXb(n, p, s0 = 3, xtype = "toeplitz", x.par = 1 / 3)
 x <- sim_data$x
 y <- as.numeric(x %*% sim_data$beta + rnorm(n))
 

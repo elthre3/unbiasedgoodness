@@ -16,8 +16,8 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Imports: 
     glmnet,
-    hdi,
     intervals,
+    MASS,
     parallel,
     RPtests,
     stats

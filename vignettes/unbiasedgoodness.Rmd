@@ -20,14 +20,14 @@ library(unbiasedgoodness)
 
 A model chosen by a data-driven method will often look like it fits well, because the method chose it for fitting well. This package tests the fit of a selected linear model against a data-driven enlargement of it: if the selected model has $s$ variables, the alternative adds variables until it has about $\lceil m s + b \rceil$.
 
-We simulate a sparse high-dimensional regression with [hdi::rXb()]; the true support is the first `s0` columns.
+We simulate a sparse high-dimensional regression with [rXb()]; the true support is the first `s0` columns.
 
 ```{r}
 set.seed(1)
 n <- 100
 p <- 60
 s0 <- 3
-sim_data <- hdi::rXb(n, p, s0, xtype = "toeplitz", x.par = 1 / 3, verbose = FALSE)
+sim_data <- rXb(n, p, s0, xtype = "toeplitz", x.par = 1 / 3, verbose = FALSE)
 x <- sim_data$x
 y <- as.numeric(x %*% sim_data$beta + rnorm(n))
 ```

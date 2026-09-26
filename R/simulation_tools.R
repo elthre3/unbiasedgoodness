@@ -2,13 +2,13 @@
 #'
 #' @description
 #' `simulate_gof_instance()` generates one high-dimensional linear regression
-#' data set with [hdi::rXb()], selects and enlarges a model, and computes
+#' data set with [rXb()], selects and enlarges a model, and computes
 #' goodness-of-fit p-values with [gof_RPtest()] or [gof_groupfs()].
 #' `simulate_gof()` repeats this `niters` times, optionally in parallel, and
 #' returns one row per iteration.
 #'
 #' @details
-#' The true coefficient vector returned by [hdi::rXb()] is nonzero exactly in
+#' The true coefficient vector returned by [rXb()] is nonzero exactly in
 #' its first `s0` entries, so the true support is `1:s0` (with
 #' `permuted = TRUE` the columns of the design are permuted, not `beta`).
 #' The column `null` is `TRUE` when the selected model contains the whole true
@@ -29,11 +29,11 @@
 #' @param s0 Number of nonzero coefficients in the true linear model.
 #' @param method Which goodness-of-fit test to use.
 #' @param xtype,btype,permuted Data-generating process, passed to
-#'   [hdi::rXb()].
-#' @param x.par Parameter of the design correlation, passed to [hdi::rXb()].
+#'   [rXb()].
+#' @param x.par Parameter of the design correlation, passed to [rXb()].
 #'   The default is `1/3` for `"toeplitz"`, `1/20` for `"equi.corr"` and
-#'   `c(0.4, 5)` for `"exp.decay"`, weaker correlation than the defaults in
-#'   `hdi`.
+#'   `c(0.4, 5)` for `"exp.decay"`, weaker correlation than the defaults of
+#'   [rXb()].
 #' @param sigma Error standard deviation of the data-generating process.
 #' @param cores Number of cores. Uses forked processes via
 #'   [parallel::mclapply()] where available, otherwise a socket cluster.
@@ -61,7 +61,7 @@ simulate_gof_instance <- function(m, b, n, p, s0,
   xtype <- match.arg(xtype)
   if (is.null(x.par)) x.par <- default_x_par(xtype)
 
-  sim_data <- hdi::rXb(n = n, p = p, s0 = s0, xtype = xtype, btype = btype,
+  sim_data <- rXb(n = n, p = p, s0 = s0, xtype = xtype, btype = btype,
                        permuted = permuted, x.par = x.par, verbose = FALSE)
   x <- sim_data$x
   beta <- sim_data$beta
@@ -118,7 +118,7 @@ simulate_gof <- function(niters, m, b, n, p, s0, ..., cores = 1L, seed = NULL) {
 #' Generic simulation harness for high-dimensional linear regression
 #'
 #' @description
-#' `instance_hdr()` generates data with [hdi::rXb()], computes a response
+#' `instance_hdr()` generates data with [rXb()], computes a response
 #' with `y_fun`, fits a model with `fit_fun`, and post-processes the fit with
 #' `post_fun`. `simulate_hdr()` repeats this `niters` times and returns a
 #' list of the results.
@@ -164,7 +164,7 @@ instance_hdr <- function(n, p, s0,
                          post_fun = post_glmnet_cv, post_args = list()) {
   xtype <- match.arg(xtype)
   if (is.null(x.par)) x.par <- default_x_par(xtype)
-  sim_data <- hdi::rXb(n = n, p = p, s0 = s0, xtype = xtype, btype = btype,
+  sim_data <- rXb(n = n, p = p, s0 = s0, xtype = xtype, btype = btype,
                        permuted = permuted, x.par = x.par, verbose = FALSE)
   x <- sim_data$x
   beta <- sim_data$beta

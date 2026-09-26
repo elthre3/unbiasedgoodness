@@ -68,7 +68,7 @@ set.seed(1)
 n <- 100
 p <- 200
 s0 <- 5
-sim_data <- hdi::rXb(n, p, s0, xtype = "equi.corr", x.par = 1 / 20, verbose = FALSE)
+sim_data <- rXb(n, p, s0, xtype = "equi.corr", x.par = 1 / 20, verbose = FALSE)
 x <- sim_data$x
 beta <- sim_data$beta
 y <- as.numeric(x %*% beta + rnorm(n))

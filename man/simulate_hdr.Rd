@@ -59,12 +59,12 @@ post_glmnet_cv(fit_obj, x, y, beta, lambda = "lambda.1se")
 \item{s0}{Number of nonzero coefficients in the true linear model.}
 
 \item{xtype, btype, permuted}{Data-generating process, passed to
-\code{\link[hdi:rXb]{hdi::rXb()}}.}
+\code{\link[=rXb]{rXb()}}.}
 
-\item{x.par}{Parameter of the design correlation, passed to \code{\link[hdi:rXb]{hdi::rXb()}}.
+\item{x.par}{Parameter of the design correlation, passed to \code{\link[=rXb]{rXb()}}.
 The default is \code{1/3} for \code{"toeplitz"}, \code{1/20} for \code{"equi.corr"} and
-\code{c(0.4, 5)} for \code{"exp.decay"}, weaker correlation than the defaults in
-\code{hdi}.}
+\code{c(0.4, 5)} for \code{"exp.decay"}, weaker correlation than the defaults of
+\code{\link[=rXb]{rXb()}}.}
 
 \item{y_fun}{Function \verb{(x, beta, ...)} returning the response.}
 
@@ -98,7 +98,7 @@ For \code{instance_hdr()}, the value of \code{post_fun}; for
 \code{simulate_hdr()}, a list of such values.
 }
 \description{
-\code{instance_hdr()} generates data with \code{\link[hdi:rXb]{hdi::rXb()}}, computes a response
+\code{instance_hdr()} generates data with \code{\link[=rXb]{rXb()}}, computes a response
 with \code{y_fun}, fits a model with \code{fit_fun}, and post-processes the fit with
 \code{post_fun}. \code{simulate_hdr()} repeats this \code{niters} times and returns a
 list of the results.

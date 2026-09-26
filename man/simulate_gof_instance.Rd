@@ -36,12 +36,12 @@ simulate_gof(niters, m, b, n, p, s0, ..., cores = 1L, seed = NULL)
 \item{method}{Which goodness-of-fit test to use.}
 
 \item{xtype, btype, permuted}{Data-generating process, passed to
-\code{\link[hdi:rXb]{hdi::rXb()}}.}
+\code{\link[=rXb]{rXb()}}.}
 
-\item{x.par}{Parameter of the design correlation, passed to \code{\link[hdi:rXb]{hdi::rXb()}}.
+\item{x.par}{Parameter of the design correlation, passed to \code{\link[=rXb]{rXb()}}.
 The default is \code{1/3} for \code{"toeplitz"}, \code{1/20} for \code{"equi.corr"} and
-\code{c(0.4, 5)} for \code{"exp.decay"}, weaker correlation than the defaults in
-\code{hdi}.}
+\code{c(0.4, 5)} for \code{"exp.decay"}, weaker correlation than the defaults of
+\code{\link[=rXb]{rXb()}}.}
 
 \item{sigma}{Error standard deviation of the data-generating process.}
 
@@ -65,13 +65,13 @@ p-value (names starting with \code{pval}).
 }
 \description{
 \code{simulate_gof_instance()} generates one high-dimensional linear regression
-data set with \code{\link[hdi:rXb]{hdi::rXb()}}, selects and enlarges a model, and computes
+data set with \code{\link[=rXb]{rXb()}}, selects and enlarges a model, and computes
 goodness-of-fit p-values with \code{\link[=gof_RPtest]{gof_RPtest()}} or \code{\link[=gof_groupfs]{gof_groupfs()}}.
 \code{simulate_gof()} repeats this \code{niters} times, optionally in parallel, and
 returns one row per iteration.
 }
 \details{
-The true coefficient vector returned by \code{\link[hdi:rXb]{hdi::rXb()}} is nonzero exactly in
+The true coefficient vector returned by \code{\link[=rXb]{rXb()}} is nonzero exactly in
 its first \code{s0} entries, so the true support is \code{1:s0} (with
 \code{permuted = TRUE} the columns of the design are permuted, not \code{beta}).
 The column \code{null} is \code{TRUE} when the selected model contains the whole true

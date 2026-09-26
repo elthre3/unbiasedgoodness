@@ -1,0 +1,129 @@
+timestamp	corpus	query	hits	note
+2026-09-26T12:54:01.220452Z	s2.paper	arXiv:1511.01478	1	
+2026-09-26T12:55:47.667086Z	s2.paper	arXiv:1405.3920	1	
+2026-09-26T12:55:51.129744Z	s2.paper	DOI:10.1111/rssb.12234	1	
+2026-09-26T12:56:03.091798Z	s2.paper	arXiv:1410.2597	1	
+2026-09-26T12:56:06.538524Z	s2.paper	DOI:10.1080/01621459.2015.1108848	1	
+2026-09-26T12:56:10.016383Z	s2.paper	DOI:10.1214/17-AOS1564	1	
+2026-09-26T12:56:13.508137Z	s2.paper	DOI:10.1080/01621459.2020.1732989	1	
+2026-09-26T12:56:16.966524Z	s2.paper	DOI:10.1093/biomet/asy045	1	
+2026-09-26T12:56:20.436376Z	s2.paper	DOI:10.1111/rssb.12371	1	
+2026-09-26T12:56:23.900874Z	s2.paper	DOI:10.1093/biomet/asac070	1	
+2026-09-26T12:56:27.497545Z	s2.paper	DOI:10.1080/01621459.2023.2270748	1	
+2026-09-26T12:57:40.808425Z	s2.paper	arXiv:2301.07276	1	
+2026-09-26T12:57:44.254506Z	s2.paper	DOI:10.1080/01621459.2022.2081575	1	
+2026-09-26T12:59:02.526938Z	s2.paper	arXiv:2012.15664	1	
+2026-09-26T12:59:05.939956Z	s2.paper	DOI:10.1146/annurev-statistics-100421-044639	1	
+2026-09-26T12:59:37Z	arxiv.abs	2604.09779
+2026-09-26T12:59:38Z	arxiv.abs	2608.04667
+2026-09-26T12:59:39Z	arxiv.abs	2411.13764
+2026-09-26T12:59:40.846604Z	s2.citations	arXiv:1511.01478	47	
+2026-09-26T12:59:41Z	arxiv.abs	2601.13514
+2026-09-26T12:59:42Z	arxiv.abs	2406.18390
+2026-09-26T12:59:43Z	arxiv.abs	2408.06323
+2026-09-26T12:59:44.228928Z	s2.citations	arXiv:1405.3920	67	
+2026-09-26T12:59:44Z	arxiv.abs	2409.03069
+2026-09-26T12:59:46Z	arxiv.abs	2609.06413
+2026-09-26T12:59:47Z	arxiv.abs	2412.10721
+2026-09-26T12:59:47.654386Z	s2.citations	DOI:10.1111/rssb.12234	57	
+2026-09-26T12:59:48Z	arxiv.abs	2508.00770
+2026-09-26T12:59:49Z	arxiv.abs	2504.11767
+2026-09-26T12:59:51.029889Z	s2.citations	DOI:10.1111/rssb.12371	42	
+2026-09-26T12:59:51Z	arxiv.abs	2212.12940
+2026-09-26T12:59:52Z	arxiv.abs	2502.20917
+2026-09-26T12:59:52.976215Z	s2.paper	arXiv:2211.02039	1	
+2026-09-26T12:59:53Z	arxiv.abs	2603.24875
+2026-09-26T12:59:54Z	arxiv.abs	2607.18545
+2026-09-26T12:59:55.407867Z	s2.citations	DOI:10.1080/01621459.2020.1732989	39	
+2026-09-26T12:59:56Z	arxiv.abs	2605.11511
+2026-09-26T12:59:56.423813Z	s2.paper	DOI:10.1214/19-AOS1857	1	
+2026-09-26T12:59:57Z	arxiv.abs	1511.08866
+2026-09-26T12:59:58Z	arxiv.abs	2306.13829
+2026-09-26T12:59:58.755426Z	s2.citations	DOI:10.1093/biomet/asy045	40	
+2026-09-26T13:00:00Z	arxiv.abs	2203.14504
+2026-09-26T13:00:01Z	arxiv.abs	1706.09796
+2026-09-26T13:00:02.132206Z	s2.citations	DOI:10.1093/biomet/asac070	67	
+2026-09-26T13:00:06.375932Z	s2.citations	DOI:10.1146/annurev-statistics-100421-044639	47	
+2026-09-26T13:03:22.152580Z	s2.paper	arXiv:1512.02565	1	
+2026-09-26T13:03:25.617360Z	s2.paper	DOI:10.1111/rssb.12122	1	
+2026-09-26T13:03:29.018898Z	s2.paper	DOI:10.1214/13-AOS1175	1	
+2026-09-26T13:03:32.289141Z	s2.paper	DOI:10.1214/15-AOS1371	1	
+2026-09-26T13:04:17Z	arxiv.abs	2012.13545
+2026-09-26T13:04:18.409499Z	s2.paper	arXiv:1801.09037	1	
+2026-09-26T13:04:19Z	arxiv.abs	2004.09749
+2026-09-26T13:04:20Z	arxiv.abs	2307.11351
+2026-09-26T13:04:21Z	arxiv.abs	1503.05093
+2026-09-26T13:04:21.679342Z	s2.paper	DOI:10.1214/18-AOS1784	1	
+2026-09-26T13:04:22Z	arxiv.abs	1607.08211
+2026-09-26T13:04:23Z	arxiv.abs	2311.13768
+2026-09-26T13:04:24.924733Z	s2.paper	DOI:10.1214/19-AOS1815	1	
+2026-09-26T13:04:25Z	arxiv.abs	2502.02213
+2026-09-26T13:04:26Z	arxiv.abs	1412.4605
+2026-09-26T13:04:27Z	arxiv.abs	1711.00497
+2026-09-26T13:04:29Z	arxiv.abs	2105.04920
+2026-09-26T13:05:44Z	arxiv.abs	2607.28861
+2026-09-26T13:05:45Z	arxiv.abs	2301.02739
+2026-09-26T13:05:47Z	arxiv.abs	2109.14544
+2026-09-26T13:05:48Z	arxiv.abs	2309.08063
+2026-09-26T13:05:49Z	arxiv.abs	2010.03145
+2026-09-26T13:05:50Z	arxiv.abs	1802.09117
+2026-09-26T13:05:51Z	arxiv.abs	2303.02840
+2026-09-26T13:05:53Z	arxiv.abs	2601.00541
+2026-09-26T13:05:54Z	arxiv.abs	2007.12448
+2026-09-26T13:05:55Z	crossref.work	10.1080/01621459.2025.2529602
+2026-09-26T13:05:55Z	crossref.work	10.3150/24-bej1811
+2026-09-26T13:05:55Z	crossref.work	10.1214/21-AOS2094
+2026-09-26T13:05:56Z	crossref.work	10.1093/jrsssb/qkae091
+2026-09-26T13:07:46Z	arxiv.abs	2603.27718
+2026-09-26T13:07:47Z	arxiv.abs	2507.10373
+2026-09-26T13:07:48Z	arxiv.abs	2606.29732
+2026-09-26T13:07:49Z	arxiv.abs	2604.04141
+2026-09-26T13:07:50Z	arxiv.abs	2207.13480
+2026-09-26T13:07:51Z	arxiv.abs	2308.10346
+2026-09-26T13:07:53Z	arxiv.abs	2212.09009
+2026-09-26T13:07:54Z	arxiv.abs	2412.14423
+2026-09-26T13:08:23.151147Z	s2.paper	arXiv:1705.05543	0	
+2026-09-26T13:08:26.421678Z	s2.paper	DOI:10.1214/12-AOS1077	1	
+2026-09-26T13:08:29.703243Z	s2.paper	DOI:10.1111/j.1467-9868.2006.00551.x	1	
+2026-09-26T13:08:32.952922Z	s2.paper	DOI:10.1198/jasa.2011.tm10284	1	
+2026-09-26T13:08:36.197890Z	s2.paper	DOI:10.1214/08-AOS629	1	
+2026-09-26T13:08:39.710198Z	s2.paper	DOI:10.1214/17-AOS1584	1	
+2026-09-26T13:09:06.956993Z	s2.paper	arXiv:1703.06559	1	
+2026-09-26T13:09:48Z	crossref.work	10.3150/16-BEJ885
+2026-09-26T13:09:48Z	crossref.work	10.1214/24-EJS2232
+2026-09-26T13:09:49Z	crossref.work	10.1007/s42081-024-00247-0
+2026-09-26T13:09:50Z	crossref.work	10.1214/21-EJS1825
+2026-09-26T13:09:50Z	crossref.work	10.1214/24-AOS2447
+2026-09-26T13:09:50Z	crossref.work	10.1214/18-AOS1784
+2026-09-26T13:09:50Z	crossref.work	10.1214/19-STS815
+2026-09-26T13:09:50Z	crossref.work	10.1080/01621459.2024.2412172
+2026-09-26T13:09:50Z	crossref.work	10.1080/01621459.2024.2353948
+2026-09-26T13:09:51Z	crossref.work	10.1093/biomet/asad078
+2026-09-26T13:09:51Z	crossref.work	10.1214/24-AOS2391
+2026-09-26T13:09:52Z	crossref.work	10.1214/23-AOS2303
+2026-09-26T13:09:53.802833Z	s2.paper	arXiv:2411.13764	1	
+2026-09-26T13:09:57.055545Z	s2.paper	arXiv:2406.18390	1	
+2026-09-26T13:10:49Z	crossref.work	10.1214/24-AOS2454
+2026-09-26T13:12:20.848828Z	s2.paper	arXiv:2408.06323	1	
+2026-09-26T13:14:07.125097Z	s2.paper	arXiv:2604.09779	1	
+2026-09-26T13:14:10.711910Z	s2.paper	arXiv:2601.13514	1	
+2026-09-26T13:15:24.696941Z	s2.paper	arXiv:2212.12940	1	
+2026-09-26T13:16:11.755145Z	s2.paper	arXiv:2306.13829	1	
+2026-09-26T13:16:23.712778Z	s2.paper	arXiv:2203.14504	1	
+2026-09-26T13:16:50.341282Z	s2.paper	arXiv:2412.10721	1	
+2026-09-26T13:18:14Z	web.search	selective inference goodness-of-fit test after variable selection linear model 2024 2025 arXiv	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	"residual prediction" test Shah Bühlmann citing high-dimensional goodness of fit 2023 2024 2025	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	data fission OR data thinning "model checking" OR "goodness-of-fit" post-selection 2024 2025	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	"post-selection inference" power loss conditional inference randomization "selective inference" critique limitations 2023 2024 2025	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	e-values OR "anytime-valid" post-selection inference lasso selected model test 2024 2025	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	"lack of fit" OR "misspecification" test "selected model" lasso high-dimensional regression 2022-2025 Biometrika OR JASA OR Annals	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	"forward stepwise" selective inference groups Loftus Taylor cited by 2023 2024 2025 selective F test truncated	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	Kivaranovic Leeb "unbounded" polyhedral confidence intervals selective inference citing 2023 2024 2025 power	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	high-dimensional F-test "many" added variables testing linear hypothesis dimension growing 2023 2024 2025	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	selective inference after cross-validation lasso "cv.glmnet" OR "cross-validated" conditional inference 2023 2024 2025 arXiv	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	"projected covariance measure" OR "generalized covariance measure" citing conditional independence test regression "goodness of fit" 2024 2025 2026	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	Loftus selective inference arXiv 2024 2025 2026 new paper "Joshua Loftus"	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	"goodness-of-fit" "selective inference" OR "post-selection" "selected model" test adequacy after variable selection regression	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	"residual prediction" tests extension 2023-2026 "high-dimensional" goodness-of-fit "sample splitting" OR "cross-fitting" nonlinear alternatives arXiv	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	critique "selective inference" conditional "does not answer" OR "wrong question" OR "misleading" Leeb Pötscher post-model-selection 2022-2025	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
+2026-09-26T13:18:14Z	web.search	"specification test" OR "goodness-of-fit test" high-dimensional linear regression "cross-fitting" OR "sample splitting" 2025 2026 arXiv Biometrika JASA Annals	n/a	results screened by title; run 2026-09-26 12:50-13:30 UTC
